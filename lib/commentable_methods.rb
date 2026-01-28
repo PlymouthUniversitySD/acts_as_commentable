@@ -12,7 +12,12 @@ module Juixe
         private
 
         def define_role_based_inflection(role)
-          send("define_role_based_inflection_#{Rails.version.first}", role)
+          rails_major_version = Rails.version.split('.').first.to_i
+          if rails_major_version >= 4
+            define_role_based_inflection_modern(role)
+          else
+            define_role_based_inflection_3(role)
+          end
         end
 
         def define_role_based_inflection_3(role)
@@ -20,7 +25,7 @@ module Juixe
                    **has_many_options(role).merge(conditions: { role: role.to_s })
         end
 
-        def define_role_based_inflection_4(role)
+        def define_role_based_inflection_modern(role)
           has_many "#{role}_comments".to_sym,
                    -> { where(role: role.to_s) },
                    **has_many_options(role)
