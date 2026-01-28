@@ -9,9 +9,19 @@ commentable models.
 
 Add the following line to your Gemfile
 
-=== Rails 4
+=== Rails 8.x (Ruby 3.0+, Ruby 4.0+)
+
+Tested and confirmed working with Rails 8.1.x and Ruby 3.x/4.x
 
   gem 'acts_as_commentable'
+
+=== Rails 6-7 (Ruby 2.7+)
+
+  gem 'acts_as_commentable', '~> 5.0'
+
+=== Rails 4-5
+
+  gem 'acts_as_commentable', '~> 4.0'
 
 === Rails 3
 
@@ -21,7 +31,7 @@ Add the following line to your Gemfile
 
   gem 'acts_as_commentable', git: 'git@github.com:jackdempsey/acts_as_commentable.git', branch: '2.x'
 
- 
+
 == Generator
 
 
@@ -30,23 +40,23 @@ Add the following line to your Gemfile
   rails g comment
 
 === Rails 2
-  
+
   script/generate comment
 
 Then migrate your database to add the comments model:
 
-  rake db:migrate
+  rails db:migrate
 
 == Usage
 
 Make the desired ActiveRecord model act as commentable:
- 
+
   class Post < ActiveRecord::Base
     acts_as_commentable
   end
 
 Add a comment to a model instance by adding the following to the controller:
- 
+
   commentable = Post.create
   comment = commentable.comments.create
   comment.title = "First comment."
@@ -55,12 +65,12 @@ Add a comment to a model instance by adding the following to the controller:
 
 
 Fetch comments for the commentable model by adding the following to the view:
- 
+
   commentable = Post.find(1)
   comments = commentable.comments.recent.limit(10).all
 
 You can also add different types of comments to a model:
- 
+
   class Todo < ActiveRecord::Base
     acts_as_commentable :public, :private
   end
